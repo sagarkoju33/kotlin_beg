@@ -56,3 +56,39 @@ fun main() =
             println("Received Location: $location") // Printing the received location to the console
         }
     }
+/// api call from retrofit
+
+class Connect {
+  /// In Kotlin, a companion object is similar to static members in Java. It allows functions and properties to be accessed without creating an instance of the class.
+    companion object {
+   /// This is a private function that creates and returns a Retrofit instance.
+  It uses:
+ // RxJava2CallAdapterFactory: Allows Retrofit to support RxJava-based API responses.
+GsonConverterFactory: Converts JSON responses into Kotlin objects.
+baseUrl(Url): Sets the API's base URL dynamically.
+This method ensures that Retrofit is properly configured before making API calls.
+        private fun getRetrofit(Url:String):Retrofit {
+            return Retrofit.Builder()
+                    .addCallAdapterFactory(
+                            RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(
+                            GsonConverterFactory.create())
+                    .baseUrl(Url)
+                    .build()
+        }
+  ///Calls getApiData() to get a Retrofit instance.
+Uses .create(CallApi::class.java) to generate an implementation of the CallApi interface.
+CallApi is an interface that defines the API endpoints
+        fun getApiData():Retrofit{
+            val retrofitApi = getRetrofit(Url.BASE_URL)
+            return retrofitApi
+        }
+
+        fun callApi():CallApi{
+            val retrofitCall = getApiData()
+            return retrofitCall.create(CallApi::class.java)
+        }
+
+    }
+}
+///Retrofit handles the API calls, parsing JSON responses into Kotlin objects.
